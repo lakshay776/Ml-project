@@ -1,0 +1,78 @@
+# Laptop Recommender System
+# Run this file to see examples of the recommender system
+
+from laptop_recommender import recommend_laptops, recommender
+import pandas as pd
+
+# Load data to show examples
+df = pd.read_csv('laptop_cleaned2.csv')
+
+print("="*80)
+print("LAPTOP RECOMMENDER SYSTEM")
+print("="*80)
+print("\nThis system uses a hybrid approach combining:")
+print("1. Content-Based Filtering: Finds laptops similar to a reference laptop")
+print("2. Knowledge-Based Filtering: Filters by user preferences (budget, use case, etc.)")
+print("\nSince we only have product ratings (not user interactions),")
+print("collaborative filtering is not feasible. This hybrid approach works best!")
+print("="*80)
+
+# Example 1: Find similar laptops
+print("\n" + "="*80)
+print("EXAMPLE 1: Find laptops similar to a specific model")
+print("="*80)
+recs = recommend_laptops(
+    reference_laptop_name="HP Victus",
+    n_recommendations=5
+)
+
+if isinstance(recs, str):
+    print(recs)
+else:
+    for i, rec in enumerate(recs, 1):
+        print(f"\n{i}. {rec['name']}")
+        print(f"   {rec['brand']} | {rec['price']} | ⭐ {rec['rating']}")
+        print(f"   {rec['ram']} RAM | {rec['storage']}")
+
+# Example 2: Filter by preferences
+print("\n" + "="*80)
+print("EXAMPLE 2: Budget gaming laptops")
+print("="*80)
+recs = recommend_laptops(
+    max_price=60000,
+    use_case='gaming',
+    min_rating=4.3,
+    n_recommendations=5
+)
+
+if isinstance(recs, str):
+    print(recs)
+else:
+    for i, rec in enumerate(recs, 1):
+        print(f"\n{i}. {rec['name']}")
+        print(f"   {rec['brand']} | {rec['price']} | ⭐ {rec['rating']}")
+        print(f"   {rec['ram']} RAM | {rec['storage']}")
+        print(f"   {rec['processor']} | {rec['graphics']}")
+
+# Example 3: Business laptops
+print("\n" + "="*80)
+print("EXAMPLE 3: Business laptops with good RAM")
+print("="*80)
+recs = recommend_laptops(
+    use_case='business',
+    min_ram=16,
+    min_rating=4.4,
+    n_recommendations=5
+)
+
+if isinstance(recs, str):
+    print(recs)
+else:
+    for i, rec in enumerate(recs, 1):
+        print(f"\n{i}. {rec['name']}")
+        print(f"   {rec['brand']} | {rec['price']} | ⭐ {rec['rating']}")
+        print(f"   {rec['ram']} RAM | {rec['storage']}")
+
+print("\n" + "="*80)
+print("You can customize recommendations using the recommend_laptops() function!")
+print("="*80)
